@@ -15,31 +15,30 @@ class PageComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = { 
-      balance: localStorage.getItem('balance'),
+      balance: localStorage.getItem('balance') || 0.0,
       stockForm: {
+        errors: [],
         stockCode: "",
         qty: ""
       },
-      showSuccess: false,
-      error: "",
+      pageMessages: {
+        showSuccess: false,
+        error: "",
+      },
       portfolio: JSON.parse(localStorage.getItem('portfolio')) || [],
-
     }
-    this.addToBalance = this.addToBalance.bind(this)
-    this.getBalance = this.getBalance.bind(this)
-    this.setStockCodeInput = this.setStockCodeInput.bind(this)
-    this.setQtyInput = this.setQtyInput.bind(this)
-    this.buyStock = this.buyStock.bind(this)
-    this.resetForm = this.resetForm.bind(this)
-    this.showSuccess = this.showSuccess.bind(this)
-    this.clearMessages = this.clearMessages.bind(this)
 }
 
-  addToBalance(amount) {
-    const currentBalance = this.state['balance']
-    const newBalance = currentBalance + amount
-    this.setState({balance: newBalance})
-    localStorage.setItem('balance', this.state['balance'])
+  async addToBalance(amount) {
+    const currentBalance = this.state.balance
+    const newBalance = parseFloat(currentBalance) + parseFloat(amount)
+    await this.setState((state, props) => {
+      return {
+        ...this.state,
+        balance: newBalance
+      }
+    })
+    localStorage.setItem('balance',  this.state.balance)
   }
   
   getBalance() {
@@ -93,9 +92,10 @@ class PageComponent extends React.Component {
   }
 
   showSuccess() {
+    const pageMessages = {...this.state.pageMessages, showSuccess: true}
     this.setState({
       ...this.state,
-      showSuccess: true
+      pageMessages: pageMessages
     })
   }
   
@@ -109,9 +109,20 @@ class PageComponent extends React.Component {
   clearMessages() {
     this.setState({
       ...this.state,
-      error: "",
-      showSuccess: false
+      pageMessages: {
+        error: "",
+        showSuccess: false
+      }
     })
+  }
+
+  setPageError(error) {
+    const pageMessages = { ...this.state.pageMessages, error: error}
+    this.setState({
+      ...this.state,
+      pageMessages: pageMessages
+    })
+
   }
 
   async buyStock() {
@@ -132,33 +143,21 @@ class PageComponent extends React.Component {
     const totalPrice = priceInCent * this.state.stockForm.qty
 
     if(!this.validTrade(totalPrice, this.state.balance)) {
-      console.log("HERERE!")
-      //set error
-      this.setState({
-        ...this.state,
-        error: "Insufficient funds to make trade."
-      })
+      this.setPageError("Insufficient funds to make trade.")
       return
     }
 
-    //reduce from balance
     this.subtractFromBalance(totalPrice)
-
-    //add to portfolio
     this.addToPortfolio(this.state.stockForm.stockCode, this.state.stockForm.qty, unitPrice)
-
-    //reset form
     this.resetForm()
-
-    //say you did it!
     this.showSuccess()
   }
 
   render() {
     return(
       <div>
-        <SuccessMessage show={this.state.showSuccess}/>
-        <ErrorMessage error={this.state.error}/>
+        <SuccessMessage show={this.state.pageMessages.showSuccess}/>
+        <ErrorMessage error={this.state.pageMessages.error}/>
         <div>
           <h2>Current balance: {this.getBalance()}</h2>
           <p>Add money: <button onClick={() => this.addToBalance(1000)}>Add $10</button></p>
