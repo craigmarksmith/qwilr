@@ -4,6 +4,5 @@ WORKDIR /usr/src/qwirl/interview
 
 USER root
 COPY . .
-# RUN npm i
 
 EXPOSE 3000

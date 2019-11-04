@@ -20,7 +20,7 @@ class PageComponent extends React.Component {
         stockCode: "",
         qty: ""
       },
-      portfolio: [],
+      portfolio: localStorage.getItem('portfolio') || [],
 
     }
     this.addToBalance = this.addToBalance.bind(this)
@@ -62,6 +62,7 @@ class PageComponent extends React.Component {
     this.setState({
       ...this.state, portfolio: portfolio
     })
+    localStorage.setItem("portfolio", portfolio)
   }
 
   setStockNameInput(e) {
