@@ -29,16 +29,16 @@ class PageComponent extends React.Component {
     }
 }
 
-  async addToBalance(amount) {
+  addToBalance(amount) {
     const currentBalance = this.state.balance
     const newBalance = parseFloat(currentBalance) + parseFloat(amount)
-    await this.setState((state, props) => {
+    this.setState((state, props) => {
       return {
         ...this.state,
         balance: newBalance
       }
     })
-    localStorage.setItem('balance',  this.state.balance)
+    localStorage.setItem('balance', newBalance)
   }
   
   getBalance() {
@@ -68,16 +68,6 @@ class PageComponent extends React.Component {
     })
 
     localStorage.setItem("portfolio", JSON.stringify(portfolio))
-  }
-
-  setStockCodeInput(e) {
-    const newStockForm = { ...this.state.stockForm, stockCode: e.target.value }
-    this.setState({ ...this.state, stockForm: newStockForm })
-  }
-
-  setQtyInput(e) {
-    const newStockForm = { ...this.state.stockForm, qty: e.target.value }
-    this.setState({ ...this.state, stockForm: newStockForm })
   }
 
   resetForm() {
@@ -125,9 +115,20 @@ class PageComponent extends React.Component {
 
   }
 
+  validInputQty() {
+    if(isNaN(parseInt(this.state.stockForm.qty))) {
+      return false
+    }
+    return true
+  }
+
   async buyStock() {
-  
     this.clearMessages()
+
+    if(!this.validInputQty()){
+      this.setPageError("The trade qty is invalid")
+      return
+    }
 
     let response
     try {
@@ -154,6 +155,21 @@ class PageComponent extends React.Component {
   }
 
   render() {
+
+    const setQtyInput = (e) => {
+      const newStockForm = { ...this.state.stockForm, qty: e.target.value }
+      this.setState({ ...this.state, stockForm: newStockForm })
+    }
+  
+    const setStockCodeInput = (e) => {
+      const newStockForm = { ...this.state.stockForm, stockCode: e.target.value }
+      this.setState({ ...this.state, stockForm: newStockForm })
+    }
+
+    const buyStock = (e) => {
+      this.buyStock()
+    }
+
     return(
       <div>
         <SuccessMessage show={this.state.pageMessages.showSuccess}/>
@@ -168,9 +184,9 @@ class PageComponent extends React.Component {
         </div>
         <div>
           <h2>Buy stocks</h2>
-          <p>Stock Name: <input type="text" placeholder="AAPL" value={this.state.stockForm.stockCode} onChange={this.setStockCodeInput} /></p>
-          <p>Qty: <input type="text" value={this.state.stockForm.qty} onChange={this.setQtyInput} /></p>
-          <button onClick={this.buyStock}>Buy!</button>
+          <p>Stock Name: <input type="text" placeholder="AAPL" value={this.state.stockForm.stockCode} onChange={setStockCodeInput} /></p>
+          <p>Qty: <input type="text" value={this.state.stockForm.qty} onChange={setQtyInput} /></p>
+          <button onClick={buyStock}>Buy!</button>
         </div>
       </div>
     )
