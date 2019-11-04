@@ -59,9 +59,9 @@ class PageComponent extends React.Component {
     }
     let portfolio = this.state.portfolio
     portfolio.push(newStock)
-    // this.state = {
-    //   ...this.state, portfolio: portfolio
-    // }
+    this.setState({
+      ...this.state, portfolio: portfolio
+    })
   }
 
   setStockNameInput(e) {
@@ -106,7 +106,7 @@ class PageComponent extends React.Component {
         </div>
         <div>
           <h2>Portfolio:</h2>
-          <p>You have no stocks</p>
+          <Portfolio portfolio={this.state.portfolio}/>
         </div>
         <div>
           <h2>Buy stocks</h2>
@@ -115,6 +115,26 @@ class PageComponent extends React.Component {
           <button onClick={this.buyStock}>Buy!</button>
         </div>
       </div>
+    )
+  }
+}
+
+class Portfolio extends React.Component {
+  render() {
+    const portfolioList = this.props.portfolio.map((stock, key) => {
+      return(
+        <li key={key}>{stock.name}, {stock.qty}, {stock.unitPrice}</li>
+      )
+    })
+
+    if(portfolioList.length < 1) {
+      return(<p>You have no stocks</p>)
+    }
+
+    return (
+      <ul>
+        {portfolioList}
+      </ul>
     )
   }
 }
