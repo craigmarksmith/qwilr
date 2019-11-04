@@ -20,7 +20,8 @@ class PageComponent extends React.Component {
         stockCode: "",
         qty: ""
       },
-      portfolio: localStorage.getItem('portfolio') || [],
+      showSuccess: false,
+      portfolio: JSON.parse(localStorage.getItem('portfolio')) || [],
 
     }
     this.addToBalance = this.addToBalance.bind(this)
@@ -29,6 +30,7 @@ class PageComponent extends React.Component {
     this.setQtyInput = this.setQtyInput.bind(this)
     this.buyStock = this.buyStock.bind(this)
     this.resetForm = this.resetForm.bind(this)
+    this.showSuccess = this.showSuccess.bind(this)
 }
 
   addToBalance(amount) {
@@ -63,7 +65,8 @@ class PageComponent extends React.Component {
     this.setState({
       ...this.state, portfolio: portfolio
     })
-    localStorage.setItem("portfolio", portfolio)
+
+    localStorage.setItem("portfolio", JSON.stringify(portfolio))
   }
 
   setStockCodeInput(e) {
@@ -87,6 +90,13 @@ class PageComponent extends React.Component {
     })
   }
 
+  showSuccess() {
+    this.setState({
+      ...this.state,
+      showSuccess: true
+    })
+  }
+  
   async buyStock() {
     //get cost for stock
     let response
@@ -111,11 +121,13 @@ class PageComponent extends React.Component {
     this.resetForm()
 
     //say you did it!
+    this.showSuccess()
   }
 
   render() {
     return(
       <div>
+        <SuccessMessage show={this.state.showSuccess}/>
         <div>
           <h2>Current balance: {this.getBalance()}</h2>
           <p>Add money: <button onClick={() => this.addToBalance(1000)}>Add $10</button></p>
@@ -131,6 +143,17 @@ class PageComponent extends React.Component {
           <button onClick={this.buyStock}>Buy!</button>
         </div>
       </div>
+    )
+  }
+}
+
+class SuccessMessage extends React.Component {
+  render() {
+    if (!this.props.show) {
+      return ""
+    }
+    return (
+      <div>Did it</div>
     )
   }
 }
