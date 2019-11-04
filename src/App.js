@@ -16,6 +16,9 @@ class PageComponent extends React.Component {
     this.state = { balance: localStorage.getItem('balance')}
     this.addMoney = this.addMoney.bind(this)
     this.getBalance = this.getBalance.bind(this)
+    this.setStockNameInput = this.setStockNameInput.bind(this)
+    this.setQtyInput = this.setQtyInput.bind(this)
+    this.buyStock = this.buyStock.bind(this)
 }
 
   addMoney(qty) {
@@ -32,6 +35,22 @@ class PageComponent extends React.Component {
     return balanceInDollars
   }
 
+  setStockNameInput(e) {
+    let newStockForm = { ...this.state.stockForm, stockCode: e.target.value }
+    this.setState({ ...this.state, stockForm: newStockForm })
+  }
+
+  setQtyInput(e) {
+    let newStockForm = { ...this.state.stockForm, qty: e.target.value }
+    this.setState({ ...this.state, stockForm: newStockForm })
+  }
+
+  buyStock() {
+    console.log("Buy stock")
+    console.log(this.state.stockForm.stockCode)
+    console.log(this.state.stockForm.qty)
+  }
+
   render() {
     return(
       <div>
@@ -45,9 +64,9 @@ class PageComponent extends React.Component {
         </div>
         <div>
           <h2>Buy stocks</h2>
-          <p>Stock Name:</p>
-          <p>Qty:</p>
-          <button>Buy!</button>
+          <p>Stock Name: <input type="text" onChange={this.setStockNameInput} /></p>
+          <p>Qty: <input type="text" onChange={this.setQtyInput} /></p>
+          <button onClick={this.buyStock}>Buy!</button>
         </div>
       </div>
     )
