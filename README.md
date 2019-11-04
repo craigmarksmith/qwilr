@@ -4,14 +4,10 @@
 
 Todo:
 Validation
- - we have enough money to buy
+ - we have enough money to buy - DONE
  - qty is a number
  - the stock exists
-get api key - DONE
-can't increase bank value
-pass in real stock code - DONE
 deal with api key running out of requests
-give success message - DONE
 style success message
 show if you're making a profit or loss
 error after refresh - DONE

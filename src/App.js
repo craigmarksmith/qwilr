@@ -21,6 +21,7 @@ class PageComponent extends React.Component {
         qty: ""
       },
       showSuccess: false,
+      error: "",
       portfolio: JSON.parse(localStorage.getItem('portfolio')) || [],
 
     }
@@ -31,6 +32,7 @@ class PageComponent extends React.Component {
     this.buyStock = this.buyStock.bind(this)
     this.resetForm = this.resetForm.bind(this)
     this.showSuccess = this.showSuccess.bind(this)
+    this.clearMessages = this.clearMessages.bind(this)
 }
 
   addToBalance(amount) {
@@ -97,8 +99,25 @@ class PageComponent extends React.Component {
     })
   }
   
+  validTrade(tradePrice, availableBalance) {
+    if(tradePrice > availableBalance) {
+      return false
+    }
+    return true
+  }
+
+  clearMessages() {
+    this.setState({
+      ...this.state,
+      error: "",
+      showSuccess: false
+    })
+  }
+
   async buyStock() {
-    //get cost for stock
+  
+    this.clearMessages()
+
     let response
     try {
       const apiKey = "6KTCGLZL4OVJAE8U"
@@ -111,6 +130,16 @@ class PageComponent extends React.Component {
 
     const priceInCent = unitPrice * 100
     const totalPrice = priceInCent * this.state.stockForm.qty
+
+    if(!this.validTrade(totalPrice, this.state.balance)) {
+      console.log("HERERE!")
+      //set error
+      this.setState({
+        ...this.state,
+        error: "Insufficient funds to make trade."
+      })
+      return
+    }
 
     //reduce from balance
     this.subtractFromBalance(totalPrice)
@@ -129,6 +158,7 @@ class PageComponent extends React.Component {
     return(
       <div>
         <SuccessMessage show={this.state.showSuccess}/>
+        <ErrorMessage error={this.state.error}/>
         <div>
           <h2>Current balance: {this.getBalance()}</h2>
           <p>Add money: <button onClick={() => this.addToBalance(1000)}>Add $10</button></p>
@@ -155,6 +185,17 @@ class SuccessMessage extends React.Component {
     }
     return (
       <div>Did it</div>
+    )
+  }
+}
+
+class ErrorMessage extends React.Component {
+  render() {
+    if (this.props.error === "") {
+      return ""
+    }
+    return (
+      <div>{this.props.error}</div>
     )
   }
 }
