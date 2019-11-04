@@ -18,15 +18,16 @@ class PageComponent extends React.Component {
     this.getBalance = this.getBalance.bind(this)
 }
 
-  addMoney(e) {
-    e.preventDefault();
-    localStorage.setItem('balance', 200)
-    this.setState({balance: 200})
+  addMoney(qty) {
+    let currentBalance = this.state['balance']
+    let newBalance = currentBalance + qty
+    this.setState({balance: newBalance})
+    localStorage.setItem('balance', this.state['balance'])
   }
   
   getBalance() {
-    var balanceInCent = this.state['balance']
-    var balanceInDollars = balanceInCent / 100
+    let balanceInCent = this.state['balance']
+    let balanceInDollars = balanceInCent / 100
     balanceInDollars = balanceInDollars.toLocaleString("en-AU", {style:"currency", currency:"AUD"});
     return balanceInDollars
   }
@@ -36,7 +37,7 @@ class PageComponent extends React.Component {
       <div>
         <div>
           <h2>Current balance: {this.getBalance()}</h2>
-          <p>Add money: <button onClick={this.addMoney}>Add Money</button></p>
+          <p>Add money: <button onClick={() => this.addMoney(1000)}>Add $10</button></p>
         </div>
         <div>
           <h2>Portfolio:</h2>
@@ -46,7 +47,7 @@ class PageComponent extends React.Component {
           <h2>Buy stocks</h2>
           <p>Stock Name:</p>
           <p>Qty:</p>
-          <p>Submit button</p>
+          <button>Buy!</button>
         </div>
       </div>
     )
