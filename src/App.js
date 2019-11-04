@@ -101,7 +101,8 @@ class PageComponent extends React.Component {
     //get cost for stock
     let response
     try {
-      response = await axios.get('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=demo')
+      const apiKey = "6KTCGLZL4OVJAE8U"
+      response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${this.state.stockForm.stockCode}&interval=1min&apikey=${apiKey}`)
     } catch {
       console.log("Error, something went wrong")
     }
@@ -138,7 +139,7 @@ class PageComponent extends React.Component {
         </div>
         <div>
           <h2>Buy stocks</h2>
-          <p>Stock Name: <input type="text" value={this.state.stockForm.stockCode} onChange={this.setStockCodeInput} /></p>
+          <p>Stock Name: <input type="text" placeholder="AAPL" value={this.state.stockForm.stockCode} onChange={this.setStockCodeInput} /></p>
           <p>Qty: <input type="text" value={this.state.stockForm.qty} onChange={this.setQtyInput} /></p>
           <button onClick={this.buyStock}>Buy!</button>
         </div>
