@@ -25,9 +25,10 @@ class PageComponent extends React.Component {
     }
     this.addToBalance = this.addToBalance.bind(this)
     this.getBalance = this.getBalance.bind(this)
-    this.setStockNameInput = this.setStockNameInput.bind(this)
+    this.setStockCodeInput = this.setStockCodeInput.bind(this)
     this.setQtyInput = this.setQtyInput.bind(this)
     this.buyStock = this.buyStock.bind(this)
+    this.resetForm = this.resetForm.bind(this)
 }
 
   addToBalance(amount) {
@@ -65,7 +66,7 @@ class PageComponent extends React.Component {
     localStorage.setItem("portfolio", portfolio)
   }
 
-  setStockNameInput(e) {
+  setStockCodeInput(e) {
     const newStockForm = { ...this.state.stockForm, stockCode: e.target.value }
     this.setState({ ...this.state, stockForm: newStockForm })
   }
@@ -73,6 +74,17 @@ class PageComponent extends React.Component {
   setQtyInput(e) {
     const newStockForm = { ...this.state.stockForm, qty: e.target.value }
     this.setState({ ...this.state, stockForm: newStockForm })
+  }
+
+  resetForm() {
+    const clearForm = {
+      stockCode: "",
+      qty: ""
+    }
+    this.setState({
+      ...this.state,
+      stockForm: clearForm
+    })
   }
 
   async buyStock() {
@@ -95,6 +107,9 @@ class PageComponent extends React.Component {
     //add to portfolio
     this.addToPortfolio(this.state.stockForm.stockCode, this.state.stockForm.qty, unitPrice)
 
+    //reset form
+    this.resetForm()
+
     //say you did it!
   }
 
@@ -111,8 +126,8 @@ class PageComponent extends React.Component {
         </div>
         <div>
           <h2>Buy stocks</h2>
-          <p>Stock Name: <input type="text" onChange={this.setStockNameInput} /></p>
-          <p>Qty: <input type="text" onChange={this.setQtyInput} /></p>
+          <p>Stock Name: <input type="text" value={this.state.stockForm.stockCode} onChange={this.setStockCodeInput} /></p>
+          <p>Qty: <input type="text" value={this.state.stockForm.qty} onChange={this.setQtyInput} /></p>
           <button onClick={this.buyStock}>Buy!</button>
         </div>
       </div>

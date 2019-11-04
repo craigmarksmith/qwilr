@@ -7,12 +7,12 @@ Validation
  - we have enough money to buy
  - qty is a number
  - the stock exists
-reset the form after purchase
 give success message
 display the current stocks by stock code
 show current stock value
 show if you're making a profit or loss
 deal with api key running out of requests
+pass in real stock code
 
 
 Challenges:
