@@ -8,7 +8,7 @@ The service requires an alphavantage API key. Register for one here: https://www
 
 ## Test on Heroku
 
-To try thw website, head to https://rocky-lowlands-50182.herokuapp.com/
+Try the website, head to https://rocky-lowlands-50182.herokuapp.com/
 
 ## Run locally
 
@@ -32,6 +32,7 @@ npm run dev
 - show if you're making a profit or loss
 - display the current stocks by stock code
 - show current stock value and profit or loss
+- display errors next to appropriate field
 
 ## Challenges
 - Stocks can be sold at a fraction of a cent.
