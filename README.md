@@ -6,6 +6,10 @@ Web application for recording stock market trades.
 
 The service requires an alphavantage API key. Get one from here: https://www.alphavantage.co/support/#api-key
 
+## Test on Heroku
+
+To try thw website, head to https://rocky-lowlands-50182.herokuapp.com/
+
 ## Run locally
 
 Install Docker: https://hub.docker.com/?overlay=onboarding
