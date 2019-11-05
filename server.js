@@ -1,7 +1,5 @@
 const express = require('express');
 const axios = require('axios');
-
-// const bodyParser = require('body-parser')
 const path = require('path');
 var expressLayouts = require('express-ejs-layouts');
 const app = express();
@@ -21,7 +19,8 @@ app.use('/api/stock/:code', async function (req, res) {
   res.send(response.data)
 })
 
-let balance = 0;
+let balance = 50000;
+let portfolio = []
 
 app.get('/api/balance', function(req, res) {
   res.send({
@@ -30,7 +29,18 @@ app.get('/api/balance', function(req, res) {
 })
 
 app.put('/api/balance', function(req, res) {
-  balance = parseFloat(req.body.newBalance)
+  balance = parseFloat(req.body.newBalance).toFixed(4)
+  res.send("DONE")
+})
+
+app.get('/api/portfolio', function(req, res) {
+  res.send({
+    portfolio
+  })
+})
+
+app.put('/api/portfolio', function(req, res) {
+  portfolio = req.body.portfolio
   res.send("DONE")
 })
 

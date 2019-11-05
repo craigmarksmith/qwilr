@@ -3,6 +3,11 @@ import './App.css';
 import axios from 'axios';
 import { throwStatement } from '@babel/types';
 
+const centToDollars = (cents) => {
+  const dollars = cents / 100
+  return dollars.toLocaleString("en-AU", {style:"currency", currency:"AUD"});
+}
+
 function App() {
   return (
     <div className="App">
@@ -27,29 +32,36 @@ class PageComponent extends React.Component {
         showSuccess: false,
         error: "",
       },
-      portfolio: JSON.parse(localStorage.getItem('portfolio')) || [],
+      portfolio: [],
     }
   }
 
   async componentDidMount() {
     const balance = await this.getBalanceFromApi()
+    let portfolio = await axios.get("/api/portfolio")
+    portfolio = portfolio.data.portfolio
     this.setState({
       ...this.state,
+      portfolio,
       balance
     })
   }
 
   async getBalanceFromApi() {
     const response = await axios.get('/api/balance')
-    return parseFloat(response.data.balance)
+    return parseFloat(response.data.balance).toFixed(4)
+  }
+
+  async setApiBalance(newBalance) {
+    await axios.put('/api/balance', {
+      newBalance
+    })
   }
 
   async addToBalance(amount) {
     const currentBalance = this.state.balance
-    const newBalance = parseFloat(currentBalance) + parseFloat(amount)
-    await axios.put('/api/balance', {
-      newBalance
-    })
+    const newBalance = parseFloat(currentBalance).toFixed(4) + parseFloat(amount).toFixed(4)
+    this.setApiBalance(newBalance)
     this.setState((state, props) => {
       return {
         ...this.state,
@@ -60,23 +72,21 @@ class PageComponent extends React.Component {
   
   getBalance() {
     const balanceInCent = this.state['balance']
-    let balanceInDollars = balanceInCent / 100
-    balanceInDollars = balanceInDollars.toLocaleString("en-AU", {style:"currency", currency:"AUD"});
-    return balanceInDollars
+    return centToDollars(balanceInCent)
   }
 
   subtractFromBalance(amount) {
     const currentBalance = this.state['balance']
     const newBalance = currentBalance - amount
     this.setState({balance: newBalance})
-    localStorage.setItem('balance', this.state['balance'])
+    this.setApiBalance(newBalance)
   }
 
   addToPortfolio(stockName, qty, unitPrice) {
     const newStock = {
       name: stockName,
       qty: qty,
-      unitPrice: unitPrice
+      unitPrice: parseFloat(unitPrice*100).toFixed(4)
     }
     let portfolio = this.state.portfolio
     portfolio.push(newStock)
@@ -84,7 +94,9 @@ class PageComponent extends React.Component {
       ...this.state, portfolio: portfolio
     })
 
-    localStorage.setItem("portfolio", JSON.stringify(portfolio))
+    axios.put('/api/portfolio', {
+      portfolio
+    })
   }
 
   resetForm() {
@@ -241,7 +253,7 @@ class Portfolio extends React.Component {
   render() {
     const portfolioList = this.props.portfolio.map((stock, key) => {
       return(
-        <li key={key}>{stock.name}, {stock.qty}, {stock.unitPrice}</li>
+        <li key={key}>{stock.name}, {stock.qty}, {centToDollars(stock.unitPrice)}</li>
       )
     })
 
