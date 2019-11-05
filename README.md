@@ -18,13 +18,12 @@ npm run dev
 ```
 
 ## Todo
-deploy
-move storage to server
-deal with api key running out of requests
-style success message
-show if you're making a profit or loss
-display the current stocks by stock code
-show current stock value and profit or loss
+- move storage to server
+- deal with api key running out of requests
+- style success message
+- show if you're making a profit or loss
+- display the current stocks by stock code
+- show current stock value and profit or loss
 
 ## Challenges
 - Stocks can be sold at a fraction of a cent.
