@@ -3,14 +3,10 @@
 
 
 Todo:
-Validation
- - we have enough money to buy - DONE
- - qty is a number
- - the stock exists
 deal with api key running out of requests
+deploy
 style success message
 show if you're making a profit or loss
-error after refresh - DONE
 display the current stocks by stock code
 show current stock value
 make alphavantage calls from api (as so not to expose the key)
@@ -18,4 +14,5 @@ put api key in config
 
 
 Challenges:
-Stocks can be sold at a fraction of a cent.
+- Stocks can be sold at a fraction of a cent.
+- this.setState sometimes takes time to respond, so sometimes setting the localstorage from the state in addToBalance didn't work
