@@ -96,8 +96,8 @@ class PageComponent extends React.Component {
     return true
   }
 
-  clearMessages() {
-    this.setState({
+  async clearMessages() {
+    await this.setState({
       ...this.state,
       pageMessages: {
         error: "",
@@ -123,7 +123,7 @@ class PageComponent extends React.Component {
   }
 
   async buyStock() {
-    this.clearMessages()
+    await this.clearMessages()
 
     if(!this.validInputQty()){
       this.setPageError("The trade qty is invalid")

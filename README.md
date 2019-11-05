@@ -18,6 +18,7 @@ npm run dev
 deploy
 make alphavantage calls from api (as so not to expose the key) - DONE
 put api key in config - DONE
+move storage to server
 make css work
 deal with api key running out of requests
 style success message
@@ -29,3 +30,4 @@ show current stock value and profit or loss
 - Stocks can be sold at a fraction of a cent.
 - this.setState sometimes takes time to respond, so sometimes setting the localstorage from the state in addToBalance didn't work
 - it's already getting too big and complex. I'd like to more to redux next (or apollo if I add an graphql api)
+- getting node and react working together with webpack
