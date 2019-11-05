@@ -16,8 +16,9 @@ npm run dev
 
 ## Todo
 deploy
-make alphavantage calls from api (as so not to expose the key)
-put api key in config
+make alphavantage calls from api (as so not to expose the key) - DONE
+put api key in config - DONE
+make css work
 deal with api key running out of requests
 style success message
 show if you're making a profit or loss

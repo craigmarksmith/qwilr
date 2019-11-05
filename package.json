@@ -23,13 +23,11 @@
     "webpack-cli": "^3.3.10"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "nodemon ./server.js",
     "devstart": "nodemon ./server.js",
     "build-react-dev": "webpack --progress --watch",
-    "dev": "npm-run-all -p devstart build-react-dev"
+    "dev": "npm-run-all -p devstart build-react-dev",
+    "heroku-postbuild": "npm run build-react"
   },
   "eslintConfig": {
     "extends": "react-app"
