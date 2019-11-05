@@ -4,7 +4,7 @@ Web application for recording stock market trades.
 
 ## Prerequisite
 
-The service requires an alphavantage API key. Get one from here: https://www.alphavantage.co/support/#api-key
+The service requires an alphavantage API key. Register for one here: https://www.alphavantage.co/support/#api-key
 
 ## Test on Heroku
 
