@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
 import axios from 'axios';
 
 function App() {
@@ -132,8 +132,7 @@ class PageComponent extends React.Component {
 
     let response
     try {
-      const apiKey = "6KTCGLZL4OVJAE8U"
-      response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${this.state.stockForm.stockCode}&interval=1min&apikey=${apiKey}`)
+      response = await axios.get(`/api/stock/${this.state.stockForm.stockCode}`)
     } catch {
       console.log("Error, something went wrong")
     }
