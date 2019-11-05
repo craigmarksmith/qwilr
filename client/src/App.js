@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
+import { throwStatement } from '@babel/types';
 
 function App() {
   return (
@@ -14,8 +15,9 @@ class PageComponent extends React.Component {
 
   constructor(props) {
     super(props)
+
     this.state = { 
-      balance: localStorage.getItem('balance') || 0.0,
+      balance: 0.0,
       stockForm: {
         errors: [],
         stockCode: "",
@@ -27,18 +29,33 @@ class PageComponent extends React.Component {
       },
       portfolio: JSON.parse(localStorage.getItem('portfolio')) || [],
     }
-}
+  }
 
-  addToBalance(amount) {
+  async componentDidMount() {
+    const balance = await this.getBalanceFromApi()
+    this.setState({
+      ...this.state,
+      balance
+    })
+  }
+
+  async getBalanceFromApi() {
+    const response = await axios.get('/api/balance')
+    return parseFloat(response.data.balance)
+  }
+
+  async addToBalance(amount) {
     const currentBalance = this.state.balance
     const newBalance = parseFloat(currentBalance) + parseFloat(amount)
+    await axios.put('/api/balance', {
+      newBalance
+    })
     this.setState((state, props) => {
       return {
         ...this.state,
         balance: newBalance
       }
     })
-    localStorage.setItem('balance', newBalance)
   }
   
   getBalance() {

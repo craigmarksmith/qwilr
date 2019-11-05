@@ -10,6 +10,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
+app.use(express.json())
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/stock/:code', async function (req, res) {
@@ -18,6 +20,20 @@ app.use('/api/stock/:code', async function (req, res) {
   response = await axios.get(url)
   res.send(response.data)
 })
+
+let balance = 0;
+
+app.get('/api/balance', function(req, res) {
+  res.send({
+    balance: balance
+  })
+})
+
+app.put('/api/balance', function(req, res) {
+  balance = parseFloat(req.body.newBalance)
+  res.send("DONE")
+})
+
 app.use('/', function (req, res) {
   res.render('index');
 });

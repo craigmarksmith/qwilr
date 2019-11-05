@@ -36,6 +36,6 @@ npm run dev
 
 ## Challenges
 - Stocks can be sold at a fraction of a cent.
-- this.setState sometimes takes time to respond, so sometimes setting the localstorage from the state in addToBalance didn't work
-- it's already getting too big and complex. I'd like to more to redux next (or apollo if I add an graphql api)
+- this.setState sometimes takes time to respond, so sometimes setting the localstorage from the state in addToBalance didn't work. This happened with setting messages too.
+- it's already getting too big and complex. I'd like to move to redux next (or apollo if I add a graphql api)
 - getting node and react working together with webpack
