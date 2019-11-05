@@ -8,7 +8,7 @@ The service requires an alphavantage API key. Register for one here: https://www
 
 ## Test on Heroku
 
-Try the website, head to https://rocky-lowlands-50182.herokuapp.com/
+Try the website: ```https://rocky-lowlands-50182.herokuapp.com/```
 
 ## Run locally
 
