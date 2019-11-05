@@ -28,6 +28,7 @@
     "devstart": "nodemon ./server.js",
     "build-react-dev": "webpack --progress --watch",
     "dev": "npm-run-all -p devstart build-react-dev",
+    "build-react": "webpack -p",
     "heroku-postbuild": "npm run build-react"
   },
   "eslintConfig": {
