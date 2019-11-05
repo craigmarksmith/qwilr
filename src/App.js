@@ -137,6 +137,12 @@ class PageComponent extends React.Component {
     } catch {
       console.log("Error, something went wrong")
     }
+
+    if(response.data["Error Message"]) {
+      this.setPageError("Failed to make your trade. Please check the stock name is correct and try again.")
+      return
+    }
+
     let timeSeriesData = response.data["Time Series (1min)"]
     let unitPrice = timeSeriesData[Object.keys(timeSeriesData)[0]]["4. close"]
 
