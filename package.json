@@ -29,7 +29,8 @@
     "build-react-dev": "webpack --progress --watch",
     "dev": "npm-run-all -p devstart build-react-dev",
     "build-react": "webpack -p",
-    "heroku-postbuild": "npm run build-react"
+    "heroku-postbuild": "npm run build-react",
+    "lint": "eslint"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,5 +46,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-plugin-react": "^7.16.0"
   }
 }

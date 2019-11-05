@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/stock/:code', async function (req, res) {
   const apiKey = process.env.API_KEY
   const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${req.params.code}&interval=1min&apikey=${apiKey}`
-  response = await axios.get(url)
+  const response = await axios.get(url)
   res.send(response.data)
 })
 

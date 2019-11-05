@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
-import { throwStatement } from '@babel/types';
 
 const centToDollars = (cents) => {
   const dollars = cents / 100
@@ -17,7 +16,6 @@ function App() {
 }
 
 class PageComponent extends React.Component {
-
   constructor(props) {
     super(props)
 
@@ -61,13 +59,10 @@ class PageComponent extends React.Component {
   addToBalance(amount) {
     const currentBalance = this.state.balance
     const newBalance = parseFloat(parseFloat(currentBalance).toFixed(4)) + parseFloat(parseFloat(amount).toFixed(4))
-    console.log(newBalance)
     this.setApiBalance(newBalance)
-    this.setState((state, props) => {
-      return {
-        ...this.state,
-        balance: newBalance
-      }
+    this.setState({
+      ...this.state,
+      balance: newBalance
     })
   }
   
@@ -161,12 +156,8 @@ class PageComponent extends React.Component {
     }
 
     let response
-    try {
-      response = await axios.get(`/api/stock/${this.state.stockForm.stockCode}`)
-    } catch {
-      console.log("Error, something went wrong")
-    }
-
+    response = await axios.get(`/api/stock/${this.state.stockForm.stockCode}`)
+    
     if(response.data["Error Message"]) {
       this.setPageError("Failed to make your trade. Please check the stock name is correct and try again.")
       return
@@ -201,7 +192,7 @@ class PageComponent extends React.Component {
       this.setState({ ...this.state, stockForm: newStockForm })
     }
 
-    const buyStock = (e) => {
+    const buyStock = () => {
       this.buyStock()
     }
 
