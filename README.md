@@ -2,6 +2,10 @@
 
 Web application for recording stock market trades.
 
+## Prerequisite
+
+The service requires an alphavantage API key. Get one from here: https://www.alphavantage.co/support/#api-key
+
 ## Run locally
 
 Install Docker: https://hub.docker.com/?overlay=onboarding
