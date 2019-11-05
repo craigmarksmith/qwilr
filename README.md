@@ -26,7 +26,6 @@ npm run dev
 ```
 
 ## Todo
-- move storage to server
 - run lint
 - deal with api key running out of requests
 - style success message

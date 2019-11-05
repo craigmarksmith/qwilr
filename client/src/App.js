@@ -53,14 +53,15 @@ class PageComponent extends React.Component {
   }
 
   async setApiBalance(newBalance) {
-    await axios.put('/api/balance', {
+    axios.put('/api/balance', {
       newBalance
     })
   }
 
-  async addToBalance(amount) {
+  addToBalance(amount) {
     const currentBalance = this.state.balance
-    const newBalance = parseFloat(currentBalance).toFixed(4) + parseFloat(amount).toFixed(4)
+    const newBalance = parseFloat(parseFloat(currentBalance).toFixed(4)) + parseFloat(parseFloat(amount).toFixed(4))
+    console.log(newBalance)
     this.setApiBalance(newBalance)
     this.setState((state, props) => {
       return {
