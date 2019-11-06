@@ -65,13 +65,27 @@ class PageComponent extends React.Component {
       balance: newBalance
     })
   }
+
+  canWithdraw(amount) {
+    console.log(amount)
+    console.log(this.state.balance)
+    if(amount > this.state.balance) {
+      return false
+    }
+    return true
+  }
   
   getBalance() {
     const balanceInCent = this.state['balance']
     return centToDollars(balanceInCent)
   }
 
-  subtractFromBalance(amount) {
+  async subtractFromBalance(amount) {
+    if (!this.canWithdraw(amount)) {
+      await this.clearMessages()
+      this.setPageError("You have insufficient funds to withdraw that amount.")
+      return
+    }
     const currentBalance = this.state['balance']
     const newBalance = currentBalance - amount
     this.setState({balance: newBalance})
@@ -202,7 +216,8 @@ class PageComponent extends React.Component {
         <ErrorMessage error={this.state.pageMessages.error}/>
         <div>
           <h2>Current balance: {this.getBalance()}</h2>
-          <p>Add money: <button onClick={() => this.addToBalance(1000)}>Add $10</button></p>
+          <p>Deposit money: <button onClick={() => this.addToBalance(1000)}>Deposit $10</button></p>
+          <p>Withdraw money: <button onClick={() => this.subtractFromBalance(1000)}>Withdraw $10</button></p>
         </div>
         <div>
           <h2>Portfolio:</h2>
