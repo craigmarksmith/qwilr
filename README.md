@@ -1,4 +1,4 @@
-# Qwirl Interview
+# Qwilr Interview
 
 Web application for recording stock market trades.
 
@@ -8,7 +8,7 @@ The service requires an alphavantage API key. Register for one here: https://www
 
 ## Test on Heroku
 
-Try the website: ```https://rocky-lowlands-50182.herokuapp.com/```
+Try the website: https://rocky-lowlands-50182.herokuapp.com/
 
 ## Run locally
 
@@ -26,7 +26,6 @@ npm run dev
 ```
 
 ## Todo
-- run lint
 - deal with api key running out of requests
 - style success message
 - show if you're making a profit or loss
