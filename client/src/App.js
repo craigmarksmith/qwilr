@@ -210,6 +210,8 @@ class PageComponent extends React.Component {
 
     this.addToPortfolio(this.state.stockForm.stockCode, -Math.abs(this.state.stockForm.qty), unitPrice)
     this.addToBalance(totalPrice)
+    this.resetForm()
+    this.showSuccess()
   }
 
   async buyStock(response) {
@@ -281,7 +283,7 @@ class SuccessMessage extends React.Component {
       return ""
     }
     return (
-      <div>Did it</div>
+      <div>Trade completed successfully!</div>
     )
   }
 }
