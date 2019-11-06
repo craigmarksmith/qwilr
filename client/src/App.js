@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
+import { throwStatement } from '@babel/types';
 
 const centToDollars = (cents) => {
   const dollars = cents / 100
@@ -161,22 +162,57 @@ class PageComponent extends React.Component {
     return true
   }
 
-  async buyStock() {
+  stockQuantity(code) {
+    let qty = 0;
+    this.state.portfolio.forEach((trade, idx) => {
+      if(trade.name == code) {
+        qty = parseInt(qty) + parseInt(trade.qty)
+      }
+    })
+
+    return qty
+  }
+
+  async tradeStock(transationType) {
     await this.clearMessages()
 
     if(!this.validInputQty()){
       this.setPageError("The trade qty is invalid")
       return
     }
+  
+    let response = await axios.get(`/api/stock/${this.state.stockForm.stockCode}`)
 
-    let response
-    response = await axios.get(`/api/stock/${this.state.stockForm.stockCode}`)
-    
     if(response.data["Error Message"]) {
       this.setPageError("Failed to make your trade. Please check the stock name is correct and try again.")
       return
     }
 
+    if(transationType == "BUY") {
+      this.buyStock(response)
+      return
+    }
+    this.sellStock(response)
+  }
+  
+  async sellStock(response) {
+    const qty = this.stockQuantity(this.state.stockForm.stockCode)
+    if (parseInt(this.state.stockForm.qty) > parseInt(qty)) {
+      this.setPageError("You don't have enough stock to make this trade.")
+      return
+    }
+
+    let timeSeriesData = response.data["Time Series (1min)"]
+    let unitPrice = timeSeriesData[Object.keys(timeSeriesData)[0]]["4. close"]
+
+    const priceInCent = unitPrice * 100
+    const totalPrice = priceInCent * this.state.stockForm.qty
+
+    this.addToPortfolio(this.state.stockForm.stockCode, -Math.abs(this.state.stockForm.qty), unitPrice)
+    this.addToBalance(totalPrice)
+  }
+
+  async buyStock(response) {
     let timeSeriesData = response.data["Time Series (1min)"]
     let unitPrice = timeSeriesData[Object.keys(timeSeriesData)[0]]["4. close"]
 
@@ -207,7 +243,11 @@ class PageComponent extends React.Component {
     }
 
     const buyStock = () => {
-      this.buyStock()
+      this.tradeStock("BUY")
+    }
+
+    const sellStock = () => {
+      this.tradeStock("SELL")
     }
 
     return(
@@ -228,6 +268,7 @@ class PageComponent extends React.Component {
           <p>Stock Name: <input type="text" placeholder="AAPL" value={this.state.stockForm.stockCode} onChange={setStockCodeInput} /></p>
           <p>Qty: <input type="text" value={this.state.stockForm.qty} onChange={setQtyInput} /></p>
           <button onClick={buyStock}>Buy!</button>
+          <button onClick={sellStock}>Sell!</button>
         </div>
       </div>
     )
