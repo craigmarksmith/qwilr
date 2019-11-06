@@ -39,3 +39,4 @@ npm run dev
 - this.setState sometimes takes time to respond, so sometimes setting the localstorage from the state in addToBalance didn't work. This happened with setting messages too.
 - it's already getting too big and complex. I'd like to move to redux next (or apollo if I add a graphql api)
 - getting node and react working together with webpack
+- If I was to start over I'd use TypeScript (I missed having the predictable types that Golang give you), a framework like Redux (the code is already becoming spagetti, and a framework would help) and I'd write tests. 
