@@ -32,6 +32,7 @@ npm run dev
 - display the current stocks by stock code
 - show current stock value and profit or loss
 - display errors next to appropriate field
+- add validation to the API.
 
 ## Challenges
 - Design. The UI is very very simple. I felt that making a function system was more important than a pretty one (for the first pass) and so that is why it's so simple.
