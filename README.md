@@ -18,9 +18,9 @@ Once docker is installed, clone the repo, build the image, run the container the
 
 ```
 git clone https://github.com/craigmarksmith/qwilr.git
-cd qwirl
-docker build -t qwirl .
-docker run -it -e "API_KEY=YOUR_API_KEY" --rm -v "$PWD":/usr/src/qwirl -p 3000:3000 --name qwirl-running qwirl sh
+cd qwilr
+docker build -t qwilr .
+docker run -it -e "API_KEY=YOUR_API_KEY" --rm -v "$PWD":/usr/src/qwilr -p 3000:3000 --name qwilr-running qwilr sh
 
 npm run dev
 ```
