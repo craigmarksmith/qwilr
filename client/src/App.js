@@ -68,8 +68,6 @@ class PageComponent extends React.Component {
   }
 
   canWithdraw(amount) {
-    console.log(amount)
-    console.log(this.state.balance)
     if(amount > this.state.balance) {
       return false
     }
