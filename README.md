@@ -34,6 +34,7 @@ npm run dev
 - display errors next to appropriate field
 
 ## Challenges
+- Design. The UI is very very simple. I felt that making a function system was more important than a pretty one (for the first pass) and so that is why it's so simple.
 - Stocks can be sold at a fraction of a cent. (Which is why toFixed(4) is in a few places.)
 - this.setState sometimes takes time to respond, so sometimes setting the localstorage from the state in addToBalance didn't work. This happened with setting messages too.
 - it's already getting too big and complex. I'd like to move to redux next (or apollo if I add a graphql api)
